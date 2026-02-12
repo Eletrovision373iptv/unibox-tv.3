@@ -26,4 +26,4 @@ COPY . .
 EXPOSE 3000 3001
 
 # Comando para iniciar (usando um script simples ou node direto)
-CMD ["node", "server.js"]
+CMD ["node", "index.js"]
