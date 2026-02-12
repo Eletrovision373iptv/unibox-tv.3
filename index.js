@@ -1,48 +1,58 @@
 const express = require('express');
-const router = express.Router();
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// Caminho para o seu JSON de IDs (ajuste o nome do arquivo se necessário)
-const idsPath = path.join(__dirname, 'ids_band.json');
+const app = express();
+const PORT = process.env.PORT || 10000; // Porta padrão do Render
 
-router.get('/live/:id', (req, res) => {
-    const channelId = req.params.id;
-    
-    // 1. Carregar a URL do canal do seu JSON
-    let ids = {};
-    if (fs.existsSync(idsPath)) {
-        ids = JSON.parse(fs.readFileSync(idsPath, 'utf8'));
-    }
+// Importar as rotas dos outros servidores (ajustados para serem módulos)
+// Para o Render, vamos criar um seletor simples ou rodar todos na mesma porta com prefixos
+// Mas para manter a simplicidade e o visual que você gostou, vamos criar uma Home que linka para os 3.
 
-    const targetUrl = ids[channelId];
-
-    if (!targetUrl) {
-        return res.status(404).send("Canal não encontrado no arquivo JSON.");
-    }
-
-    // 2. Usar o yt-dlp para pegar o link real (.m3u8)
-    // O comando -g apenas retorna a URL, sem baixar nada.
-    const command = `/usr/local/bin/yt-dlp -g "${targetUrl}"`;
-
-    exec(command, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Erro yt-dlp: ${error.message}`);
-            return res.status(500).send("Erro ao capturar o streaming. Verifique os logs.");
-        }
-
-        const streamUrl = stdout.trim();
-
-        if (streamUrl) {
-            console.log(`✅ Redirecionando para: ${streamUrl}`);
-            // 3. REDIRECIONAR o usuário para o link real
-            // Isso faz o player do usuário falar direto com a emissora
-            res.redirect(302, streamUrl);
-        } else {
-            res.status(404).send("Não foi possível gerar o link de streaming.");
-        }
-    });
+app.get('/', (req, res) => {
+    res.send(`
+        <!DOCTYPE html>
+        <html lang="pt-br">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>UNIBOX TV - Home</title>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <style>
+                body { background: #121212; color: #fff; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-family: sans-serif; }
+                .container { text-align: center; max-width: 600px; }
+                .btn-box { padding: 20px; margin: 10px; border-radius: 10px; text-decoration: none; color: #fff; font-weight: bold; display: block; transition: 0.3s; font-size: 1.2rem; }
+                .btn-record { background: #bf40bf; }
+                .btn-record:hover { background: #993399; transform: scale(1.05); }
+                .btn-band { background: #e6e600; color: #000; }
+                .btn-band:hover { background: #cccc00; transform: scale(1.05); }
+                .btn-redetv { background: #00aeef; }
+                .btn-redetv:hover { background: #008cc0; transform: scale(1.05); }
+                h2 { margin-bottom: 30px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h2>📺 SELECIONE O PAINEL</h2>
+                <a href="/record" class="btn-box btn-record">RECORDPLUS (LILÁS)</a>
+                <a href="/band" class="btn-box btn-band">BAND (AMARELA)</a>
+                <a href="/redetv" class="btn-box btn-redetv">REDETV! (AZUL)</a>
+            </div>
+        </body>
+        </html>
+    `);
 });
 
-module.exports = router;
+// Wrapper para rodar os servidores como "sub-apps"
+const recordApp = require('./server_module.js');
+const bandApp = require('./band_module.js');
+const redetvApp = require('./redetv_module.js');
+
+app.use('/record', recordApp);
+app.use('/band', bandApp);
+app.use('/redetv', redetvApp);
+
+app.listen(PORT, () => {
+    console.log(`🚀 UNIBOX unificado rodando na porta ${PORT}`);
+});
