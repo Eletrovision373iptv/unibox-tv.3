@@ -1,8 +1,49 @@
-[
-    {
-        "id": "redetv-nacional",
-        "nome": "RedeTV! Nacional",
-        "url": "https://www.redetv.uol.com.br/aovivo",
-        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/RedeTV%21_logo.svg/1200px-RedeTV%21_logo.svg.png"
+const express = require('express');
+const router = express.Router();
+const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+// Caminho para o seu JSON
+const idsPath = path.join(__dirname, 'ids_redetv.json');
+
+router.get('/live/:id', (req, res) => {
+    const channelId = req.params.id; // Ex: redetv-nacional
+    
+    // 1. Lendo o arquivo JSON
+    let canais = [];
+    if (fs.existsSync(idsPath)) {
+        canais = JSON.parse(fs.readFileSync(idsPath, 'utf8'));
     }
-]
+
+    // 2. Procurando o canal pelo ID dentro da lista []
+    const canalEncontrado = canais.find(c => c.id === channelId);
+
+    if (!canalEncontrado) {
+        return res.status(404).send(`Canal [${channelId}] não encontrado no JSON.`);
+    }
+
+    const targetUrl = canalEncontrado.url;
+
+    // 3. Comando yt-dlp para extrair a URL real
+    const command = `/usr/local/bin/yt-dlp --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" -g "${targetUrl}"`;
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Erro yt-dlp RedeTV: ${error.message}`);
+            return res.status(500).send("Erro ao capturar o streaming da RedeTV.");
+        }
+
+        const streamUrl = stdout.trim();
+
+        if (streamUrl) {
+            console.log(`✅ RedeTV [${channelId}] Redirecionando para: ${streamUrl}`);
+            // Envia o usuário direto para o link do vídeo
+            res.redirect(302, streamUrl);
+        } else {
+            res.status(404).send("Não foi possível gerar o link da RedeTV.");
+        }
+    });
+});
+
+module.exports = router;
