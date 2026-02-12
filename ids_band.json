@@ -1,0 +1,68 @@
+[
+    {
+        "id": "band-nacional",
+        "nome": "Band Nacional",
+        "url": "https://www.band.uol.com.br/ao-vivo",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-campinas",
+        "nome": "Band Campinas",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-campinas",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-rio",
+        "nome": "Band Rio",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-rio",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-minas",
+        "nome": "Band Minas",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-minas",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-vale",
+        "nome": "Band Vale",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-vale",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-brasilia",
+        "nome": "Band Brasília",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-brasilia",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-paulista",
+        "nome": "Band Paulista",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-paulista",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-bahia",
+        "nome": "Band Bahia",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-bahia",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-parana",
+        "nome": "Band Paraná",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-parana",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-rs",
+        "nome": "Band RS",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-rs",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    },
+    {
+        "id": "band-rn",
+        "nome": "Band RN",
+        "url": "https://www.band.uol.com.br/noticias/ao-vivo/band-rn",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Band_logo.svg/1200px-Band_logo.svg.png"
+    }
+]
